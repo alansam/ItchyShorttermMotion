@@ -13,18 +13,39 @@ using namespace std::literals::string_literals;
 
 class part {
 public:
+  //  default constructor
   part(int num = 0) : num_ { num } {}
+  //  copy and move ctors - default for now
+  part(part const & that) = default;
+  part(part && that) = default;
+
+  //  dtor - default for now
+  ~part() = default;
+
+  //  copy assignment
   part & operator=(part const & that) {
     this->num_ = that.num_;
     return *this;
   }
+  //  move assignment
+  part & operator=(part && that) = default;
+
+  //  getters/setters
   int num(void) const { return num_; }
   int num(int nr) { return (num_ = nr); }
+
+  // format object for output
+  friend
+  std::ostream & operator<<(std::ostream & os, part const & that) {
+    os << "part no: "s << that.num();
+    return os;
+  }
 
 private:
   int num_;
 };
 
+//  useful constants
 part const NO_TICK(0);
 part const HAS_TICK(1);
 
@@ -37,31 +58,38 @@ private:
     part working;
 
 public:
-// default consructor
+  // default consructor
   passenger();
 
-  passenger(std::string & s_name,
-            std::string & s_ticket,
-            part n_work);
-
-  passenger(const std::string & name,
+  passenger(std::string const & name,
             part namepart,
-            const std::string & tickname = "NONE");
-
-// copy constructor
-  passenger(const passenger & depart);
+            std::string const & tickname = "NONE");
 
   passenger(std::string const s_name,
             std::string const s_ticket = "NONE",
             part const n_work = NO_TICK);
 
+  // copy constructor
+  passenger(passenger const & depart);
+
+  // move constructor - defaulted for now
+  passenger(passenger && depart) = default;
+
+  //  destructor
+  ~passenger() = default;
+
+  //  Aaaignment - defaulted for now
+  passenger & operator=(passenger const & that) = default;
+  passenger & operator=(passenger && that) = default;
+
+  // format object for output
   friend
   std::ostream & operator<<(std::ostream & os, passenger const & that) {
     os << that.name << ", "s
        << std::boolalpha
        << that.hve_ticket << ", "s
        << that.ticketname << ", "s
-       << that.working.num();
+       << that.working;
     return os;
   }
 };
