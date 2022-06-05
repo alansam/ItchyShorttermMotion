@@ -23,12 +23,6 @@ private:
 
 public:
   // default consructor
-  passenger();
-
-  passenger(std::string const & name,
-            part namepart,
-            std::string const & tickname = "NONE"s);
-
   passenger(std::string const s_name = "--NO NAME--"s,
             std::string const s_ticket = "NONE"s,
             part const n_work = KP::NO_TICK);
@@ -69,22 +63,8 @@ public:
 };
 
 // default constructor
-passenger::passenger() {
-    name = "--NO NAME--"s;
-    working = KP::NO_TICK;
-    hve_ticket = false;
-    ticketname = "NONE"s;
-}
 
 // constructor given member values
-passenger::passenger(std::string const & namet,
-                     part namepart,
-                     std::string const & ticketname_2) {
-    name = namet;
-    working = namepart;
-    hve_ticket = (ticketname_2 != "NONE"s);   //true only if ticketnamrt_2 given
-    ticketname = ticketname_2; 
-}
 
 // copy constructor
 passenger::passenger(const passenger & pass) {
@@ -97,15 +77,17 @@ passenger::passenger(const passenger & pass) {
 passenger::passenger(std::string const s_name,
             std::string const s_ticket,
             part const n_work)
-  : name(s_name),
-    ticketname(s_ticket),
-    working(n_work) {
-    hve_ticket = (s_ticket != "NONE"s);
-  }
+  : name { s_name },
+    ticketname { s_ticket },
+    working { n_work },
+    hve_ticket { (s_ticket != "NONE"s) } {}
 
+/*
+ *  MARK: main()
+ */
 int main(int argc, char const * argv[]) {
   passenger p1("Who Diss"s, "There & Back Again"s, KP::HAS_TICK);
-  passenger p2("Who Dat"s, KP::NO_TICK, "NONE"s);
+  passenger p2("Who Dat"s, "NONE"s, KP::NO_TICK);
   passenger p3(p1);
   p3.set_working(
     p3.get_working().num(
@@ -113,11 +95,13 @@ int main(int argc, char const * argv[]) {
     )
   );
   passenger p4 = p2;
+  passenger p5;
   std::cout << "Testing...\n";
   std::cout << p1 << std::endl;
   std::cout << p2 << std::endl;
   std::cout << p3 << std::endl;
   std::cout << p4 << std::endl;
+  std::cout << p5 << std::endl;
   std::cout << "Done!\n";
 
   return 0;
