@@ -9,47 +9,9 @@ initialize as given member value
 #include <iomanip>
 #include <string>
 
+#include "part.hpp"
+
 using namespace std::literals::string_literals;
-
-class part {
-public:
-  //  default constructor
-  part(int num = 0) : num_ { num } {}
-  //  copy and move ctors - default for now
-  part(part const & that) = default;
-  part(part && that) = default;
-
-  //  dtor - default for now
-  ~part() = default;
-
-  //  copy assignment
-  part & operator=(part const & that) {
-    this->num_ = that.num_;
-    return *this;
-  }
-  //  move assignment
-  part & operator=(part && that) = default;
-
-  //  getters/setters
-  int num(void) const { return num_; }
-  int num(int nr) { return (num_ = nr); }
-
-  // format object for output
-  friend
-  std::ostream & operator<<(std::ostream & os, part const & that) {
-    os << "part no:"s
-       << std::setw(5)
-       << that.num();
-    return os;
-  }
-
-private:
-  int num_;
-};
-
-//  useful constants
-part const NO_TICK(0);
-part const HAS_TICK(1);
 
 // syntax class constructor
 class passenger {
@@ -65,11 +27,11 @@ public:
 
   passenger(std::string const & name,
             part namepart,
-            std::string const & tickname = "NONE");
+            std::string const & tickname = "NONE"s);
 
-  passenger(std::string const s_name,
-            std::string const s_ticket = "NONE",
-            part const n_work = NO_TICK);
+  passenger(std::string const s_name = "--NO NAME--"s,
+            std::string const s_ticket = "NONE"s,
+            part const n_work = KP::NO_TICK);
 
   // copy constructor
   passenger(passenger const & depart);
@@ -108,10 +70,10 @@ public:
 
 // default constructor
 passenger::passenger() {
-    name = "--NO NAME--";
-    working = NO_TICK;
+    name = "--NO NAME--"s;
+    working = KP::NO_TICK;
     hve_ticket = false;
-    ticketname = "NONE";
+    ticketname = "NONE"s;
 }
 
 // constructor given member values
@@ -120,7 +82,7 @@ passenger::passenger(std::string const & namet,
                      std::string const & ticketname_2) {
     name = namet;
     working = namepart;
-    hve_ticket = (ticketname_2 != "NONE");   //true only if ticketnamrt_2 given
+    hve_ticket = (ticketname_2 != "NONE"s);   //true only if ticketnamrt_2 given
     ticketname = ticketname_2; 
 }
 
@@ -138,12 +100,12 @@ passenger::passenger(std::string const s_name,
   : name(s_name),
     ticketname(s_ticket),
     working(n_work) {
-    hve_ticket = (s_ticket != "NONE");
+    hve_ticket = (s_ticket != "NONE"s);
   }
 
 int main(int argc, char const * argv[]) {
-  passenger p1("Who Diss"s, "There & Back Again"s, HAS_TICK);
-  passenger p2("Who Dat"s, NO_TICK, "NONE"s);
+  passenger p1("Who Diss"s, "There & Back Again"s, KP::HAS_TICK);
+  passenger p2("Who Dat"s, KP::NO_TICK, "NONE"s);
   passenger p3(p1);
   p3.set_working(
     p3.get_working().num(
