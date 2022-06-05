@@ -37,7 +37,9 @@ public:
   // format object for output
   friend
   std::ostream & operator<<(std::ostream & os, part const & that) {
-    os << "part no: "s << that.num();
+    os << "part no:"s
+       << std::setw(5)
+       << that.num();
     return os;
   }
 
@@ -81,6 +83,16 @@ public:
   //  Aaaignment - defaulted for now
   passenger & operator=(passenger const & that) = default;
   passenger & operator=(passenger && that) = default;
+
+  //  getters/setters
+  std::string get_name(void) { return name; }
+  std::string set_name(std::string const nm) { return (name = nm); }
+  std::string get_ticketname(void) { return ticketname; }
+  std::string set_ticketname(std::string const tn) { return (ticketname = tn); }
+  bool has_ticket(void) { return hve_ticket; }
+  bool has_ticket(bool const ht) { return (hve_ticket = ht); }
+  part & get_working(void) { return working; }
+  part & set_working(part const & wk) { return (working = wk); }
 
   // format object for output
   friend
@@ -133,6 +145,11 @@ int main(int argc, char const * argv[]) {
   passenger p1("Who Diss"s, "There & Back Again"s, HAS_TICK);
   passenger p2("Who Dat"s, NO_TICK, "NONE"s);
   passenger p3(p1);
+  p3.set_working(
+    p3.get_working().num(
+      p3.get_working().num() + 10
+    )
+  );
   passenger p4 = p2;
   std::cout << "Testing...\n";
   std::cout << p1 << std::endl;
