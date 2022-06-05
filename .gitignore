@@ -1,4 +1,6 @@
 main
+.replit
+replit.nix
 *.out
 *.o
 *.bc
@@ -12,3 +14,4 @@ main
 /log
 /tmp
 /temp
+/.ccls-cache
